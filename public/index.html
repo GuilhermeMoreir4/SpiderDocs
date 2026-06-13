@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scrapper Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'IBM Plex Sans',sans-serif;background:#f6f7f9;color:#1b2330;}
+::selection{background:#c7d2fe;}
+
+/* ── scrollbars ── */
+.scr-main::-webkit-scrollbar{width:11px;}
+.scr-main::-webkit-scrollbar-thumb{background:#d4d8df;border-radius:8px;border:3px solid #f6f7f9;}
+.scr-nav::-webkit-scrollbar{width:8px;}
+.scr-nav::-webkit-scrollbar-thumb{background:#27303f;border-radius:8px;}
+
+/* ── sidebar nav ── */
+.nav-group-label{font:600 10.5px/1 'IBM Plex Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#5a6678;padding:18px 12px 8px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:7px 12px;border-radius:8px;color:#aeb8c7;font:500 13.5px/1.35 'IBM Plex Sans',sans-serif;text-decoration:none;cursor:pointer;transition:background .12s,color .12s;position:relative;}
+.nav-item:hover{background:#161d2b;color:#e7edf5;}
+.nav-item.active{background:#1b2740;color:#fff;}
+.nav-item.active::before{content:"";position:absolute;left:-10px;top:6px;bottom:6px;width:3px;border-radius:2px;background:#7c83ff;}
+.nav-dot{width:7px;height:7px;border-radius:50%;flex:0 0 auto;box-shadow:0 0 0 3px rgba(255,255,255,.04);}
+.nav-sub{display:block;padding:5px 12px 5px 30px;color:#7e8a9c;font:400 12.5px/1.3 'IBM Plex Sans',sans-serif;text-decoration:none;cursor:pointer;border-radius:7px;}
+.nav-sub:hover{color:#cdd5e2;background:#141b27;}
+.nav-sub.active{color:#aeb6ff;}
+
+/* ── markdown body ── */
+.md-body{font:400 15.5px/1.72 'IBM Plex Sans',sans-serif;color:#2a3343;}
+.md-intro{font-size:17px;line-height:1.7;color:#41506a;margin:0 0 8px;}
+.md-intro p{margin:0 0 14px;}
+.md-body p{margin:0 0 15px;}
+.md-body strong{font-weight:600;color:#161d2b;}
+.md-body em{color:#41506a;}
+.md-body a{color:#4a52e0;text-decoration:none;border-bottom:1px solid #c9cdf7;}
+.md-body a:hover{border-bottom-color:#4a52e0;}
+.md-body ul,.md-body ol{margin:0 0 16px;padding-left:22px;}
+.md-body li{margin:0 0 7px;}
+.md-body li::marker{color:#9aa3b5;}
+.md-body h3{font:600 16.5px/1.4 'IBM Plex Sans',sans-serif;color:#161d2b;margin:26px 0 12px;letter-spacing:-.01em;}
+.md-body hr{border:none;border-top:1px solid #e7e9ee;margin:30px 0;}
+.md-body code{font:500 13px/1.4 'IBM Plex Mono',monospace;background:#eef0f5;color:#3a4660;padding:2px 6px;border-radius:5px;border:1px solid #e2e5ec;}
+.md-body table{border-collapse:separate;border-spacing:0;width:100%;margin:6px 0 22px;font-size:13.5px;border:1px solid #e6e8ee;border-radius:10px;overflow:hidden;}
+.md-body thead th{background:#f4f5f8;text-align:left;font-weight:600;color:#3c4759;padding:11px 14px;border-bottom:1px solid #e6e8ee;font-size:12.5px;letter-spacing:.01em;}
+.md-body tbody td{padding:11px 14px;border-bottom:1px solid #eef0f4;color:#43506a;vertical-align:top;}
+.md-body tbody tr:last-child td{border-bottom:none;}
+.md-body tbody tr:hover td{background:#fafbfc;}
+.md-body td code,.md-body th code{background:#eef0f5;}
+.md-body blockquote{margin:18px 0;padding:14px 16px;background:#fff8ec;border:1px solid #f1e2c2;border-left:3px solid #e0a73a;border-radius:10px;color:#6b5118;font-size:14px;}
+.md-body blockquote p{margin:0;}
+
+/* ── code blocks ── */
+.code-wrap{margin:6px 0 22px;border-radius:12px;overflow:hidden;border:1px solid #1c2433;background:#0d1117;box-shadow:0 10px 30px -18px rgba(13,17,23,.6);}
+.code-bar{display:flex;align-items:center;justify-content:space-between;padding:8px 12px 8px 14px;background:#11161f;border-bottom:1px solid #1c2433;}
+.code-lang{font:600 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#6b7689;}
+.code-copy{font:500 11.5px/1 'IBM Plex Sans',sans-serif;color:#9aa6b8;background:#1a2230;border:1px solid #283142;border-radius:7px;padding:6px 11px;cursor:pointer;transition:.12s;}
+.code-copy:hover{color:#fff;background:#232d3e;border-color:#3a465c;}
+.code-wrap pre{margin:0;padding:16px;overflow-x:auto;background:#0d1117;}
+.code-wrap pre code{font:400 13px/1.7 'IBM Plex Mono',monospace;background:none;border:none;padding:0;color:#c9d4e3;}
+.code-wrap pre::-webkit-scrollbar{height:9px;}
+.code-wrap pre::-webkit-scrollbar-thumb{background:#283142;border-radius:8px;}
+
+/* ── operation cards ── */
+.op-card{border:1px solid #e6e8ee;border-radius:14px;background:#fff;margin:0 0 18px;overflow:hidden;box-shadow:0 1px 2px rgba(20,30,50,.03);scroll-margin-top:84px;transition:box-shadow .15s;}
+.op-card:hover{box-shadow:0 6px 22px -14px rgba(20,30,50,.18);}
+.op-head{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:16px 20px;font-family:'IBM Plex Sans',sans-serif;}
+.op-head:hover{background:#fafbfc;}
+.op-badge{flex:0 0 auto;font:600 11px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;padding:6px 10px;border-radius:7px;}
+.op-title{flex:1;font:600 16.5px/1.3 'IBM Plex Sans',sans-serif;color:#1a2230;letter-spacing:-.01em;}
+.op-chevron{flex:0 0 auto;color:#aab2c0;font-size:13px;transition:transform .18s;}
+.op-card.collapsed .op-chevron{transform:rotate(-90deg);}
+.op-body{padding:4px 22px 22px;border-top:1px solid #f0f1f5;}
+.op-card.collapsed .op-body{display:none;}
+.op-body>*:first-child{margin-top:14px;}
+
+/* ── run console ── */
+.console-section{border:1px solid #cfe6d9;border-radius:16px;background:#fff;margin:0 0 26px;overflow:hidden;box-shadow:0 1px 2px rgba(20,30,50,.03);scroll-margin-top:84px;}
+.console-header{display:flex;align-items:center;gap:13px;padding:16px 20px;background:linear-gradient(180deg,#f3fbf7,#fff);border-bottom:1px solid #e9f1ec;}
+.run-badge{font:600 11px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#0f9d6e;background:#e3f6ee;padding:6px 10px;border-radius:7px;flex:0 0 auto;}
+.console-body{padding:18px 20px 20px;}
+.field-label{font:600 11px/1 'IBM Plex Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#8a94a5;margin-bottom:7px;}
+.field-req{color:#d23f3f;}
+.form-input{width:100%;padding:9px 11px;border:1px solid #dfe3ea;border-radius:9px;font:500 13.5px/1.3 'IBM Plex Mono',monospace;color:#2a3343;background:#fff;outline:none;transition:border-color .15s,box-shadow .15s;}
+.form-input:focus{border-color:#0f9d6e;box-shadow:0 0 0 3px rgba(15,157,110,.12);}
+.form-select{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239aa3b5' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:calc(100% - 10px) center;padding-right:30px;}
+.toggle-btn{position:relative;width:44px;height:25px;border-radius:999px;border:none;cursor:pointer;transition:background .15s;padding:0;flex:0 0 auto;}
+.toggle-knob{position:absolute;top:3px;width:19px;height:19px;border-radius:50%;background:#fff;transition:left .15s;box-shadow:0 1px 3px rgba(0,0,0,.25);}
+.run-btn{display:inline-flex;align-items:center;gap:9px;padding:10px 20px;border-radius:10px;border:none;cursor:pointer;background:#0f9d6e;color:#fff;font:600 13.5px/1 'IBM Plex Sans',sans-serif;box-shadow:0 8px 18px -10px rgba(15,157,110,.8);transition:background .15s,opacity .15s;}
+.run-btn:disabled{background:#7cc7ad;cursor:default;}
+.clear-btn{padding:10px 16px;border-radius:10px;border:1px solid #dfe3ea;background:#fff;color:#5b6678;font:600 13.5px/1 'IBM Plex Sans',sans-serif;cursor:pointer;transition:background .15s;}
+.clear-btn:hover{background:#f7f8fa;}
+.tab-bar{display:flex;gap:4px;border-bottom:1px solid #e6e8ee;}
+.tab-btn{padding:9px 14px;border:none;background:none;cursor:pointer;font:600 12.5px/1 'IBM Plex Sans',sans-serif;color:#8a94a5;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .12s;}
+.tab-btn.active{color:#0f9d6e;border-bottom-color:#0f9d6e;}
+
+/* ── index page cards ── */
+.bot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;padding:32px;}
+.bot-card{background:#fff;border:1px solid #e6e8ee;border-radius:14px;padding:20px;cursor:pointer;text-decoration:none;color:inherit;transition:box-shadow .15s,border-color .15s;display:block;}
+.bot-card:hover{box-shadow:0 8px 28px -16px rgba(20,30,50,.2);border-color:#c9cdf7;}
+.bot-card-name{font:600 16px/1.3 'IBM Plex Mono',monospace;color:#11161f;margin-bottom:6px;word-break:break-all;}
+.bot-card-desc{font:400 13.5px/1.6 'IBM Plex Sans',sans-serif;color:#6b778c;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.bot-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:7px;background:#f4f5f8;border:1px solid #e6e8ee;font:500 11.5px/1 'IBM Plex Sans',sans-serif;color:#5b6678;margin-right:6px;margin-bottom:6px;}
+.bot-chip-label{font:600 9.5px/1 'IBM Plex Sans',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#9aa3b5;}
+.bot-chip-val{font-family:'IBM Plex Mono',monospace;font-weight:600;}
+
+/* ── status pills ── */
+.pill{display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:999px;font:600 12px/1 'IBM Plex Sans',sans-serif;}
+.dot{width:7px;height:7px;border-radius:50%;flex:0 0 auto;}
+.dot-lg{width:8px;height:8px;}
+
+/* ── meta chips (hero) ── */
+.meta-chip{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:9px;background:#fff;border:1px solid #e6e8ee;font:500 12.5px/1 'IBM Plex Sans',sans-serif;margin-right:8px;margin-bottom:8px;}
+.meta-chip-label{font:600 10px/1 'IBM Plex Sans',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#9aa3b5;}
+.meta-chip-val{font-family:'IBM Plex Mono',monospace;font-weight:600;}
+
+/* ── response panel ── */
+.resp-panel{margin-top:18px;}
+.resp-status-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 0 12px;}
+.resp-code-wrap{border-radius:12px;overflow:hidden;border:1px solid #1c2433;background:#0d1117;}
+.resp-code-bar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px 8px 14px;background:#11161f;border-bottom:1px solid #1c2433;}
+.resp-code-pre{margin:0;padding:16px;overflow-x:auto;max-height:360px;background:#0d1117;}
+.resp-code-pre code{font:400 12.5px/1.65 'IBM Plex Mono',monospace;color:#c9d4e3;background:none;border:none;padding:0;}
+
+/* ── textarea json editor ── */
+.json-editor{width:100%;min-height:100px;font:400 13px/1.6 'IBM Plex Mono',monospace;color:#c9d4e3;background:#0d1117;border:1px solid #1c2433;border-radius:10px;padding:14px;outline:none;resize:vertical;color-scheme:dark;}
+.json-editor:focus{border-color:#3a465c;}
+
+/* ── spinner ── */
+@keyframes spin{to{transform:rotate(360deg);}}
+.spinner{width:18px;height:18px;border-radius:50%;border:2.5px solid #e3e6ec;border-top-color:#0f9d6e;animation:spin .7s linear infinite;display:inline-block;}
+.spinner-lg{width:22px;height:22px;border-width:2.5px;}
+
+/* ── loading / empty states ── */
+.loading-row{display:flex;align-items:center;gap:12px;color:#8b94a5;font:400 14px/1 'IBM Plex Sans',sans-serif;padding:40px 0;}
+.empty-state{text-align:center;padding:80px 32px;color:#8b94a5;}
+.empty-state h2{font:600 20px/1.3 'IBM Plex Sans',sans-serif;color:#3a4660;margin-bottom:8px;}
+.empty-state p{font:400 14px/1.6 'IBM Plex Sans',sans-serif;}
+
+/* ── live reload badge ── */
+#live-badge{position:fixed;bottom:18px;right:18px;padding:6px 12px;border-radius:999px;font:500 11.5px/1 'IBM Plex Sans',sans-serif;background:#e3f6ee;color:#0f9d6e;border:1px solid #bfe9d6;opacity:0;transition:opacity .3s;pointer-events:none;z-index:100;}
+#live-badge.show{opacity:1;}
+</style>
+</head>
+<body>
+
+<!-- ── INDEX VIEW ── -->
+<div id="view-index" style="display:none;flex-direction:column;min-height:100vh;">
+  <header style="background:#0b101a;color:#e7edf5;padding:0 32px;height:58px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #1a2231;flex:0 0 auto;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:28px;height:28px;border-radius:7px;background:linear-gradient(140deg,#7c83ff,#4a52e0);display:flex;align-items:center;justify-content:center;font:700 14px/1 'IBM Plex Mono',monospace;color:#fff;box-shadow:0 4px 12px -4px rgba(124,131,255,.7);">S</div>
+      <span style="font:600 11.5px/1 'IBM Plex Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#7e8a9c;">Scrapper · Docs</span>
+    </div>
+    <span id="index-bot-count" style="font:400 12.5px/1 'IBM Plex Sans',sans-serif;color:#4f5a6c;"></span>
+  </header>
+  <div style="padding:32px 32px 0;max-width:1100px;margin:0 auto;width:100%;">
+    <div style="font:600 11px/1 'IBM Plex Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#9aa3b5;margin-bottom:12px;">Bots Disponíveis</div>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <h1 style="font:600 34px/1.1 'IBM Plex Mono',monospace;color:#11161f;letter-spacing:-.02em;">Documentação</h1>
+      <input id="index-search" placeholder="Filtrar bots…" oninput="filterBots(this.value)"
+        style="padding:9px 14px;border:1px solid #dfe3ea;border-radius:9px;font:400 13.5px/1 'IBM Plex Sans',sans-serif;color:#2a3343;background:#fff;outline:none;width:240px;">
+    </div>
+  </div>
+  <div id="bot-grid" class="bot-grid" style="max-width:1100px;margin:0 auto;width:100%;"></div>
+</div>
+
+<!-- ── BOT DETAIL VIEW ── -->
+<div id="view-bot" style="display:none;height:100vh;width:100%;overflow:hidden;">
+  <div style="display:flex;height:100%;width:100%;">
+
+    <!-- Sidebar -->
+    <aside style="width:298px;flex:0 0 298px;background:#0b101a;color:#e7edf5;display:flex;flex-direction:column;border-right:1px solid #1a2231;overflow:hidden;">
+      <div style="padding:20px 18px 14px;border-bottom:1px solid #161d2b;flex:0 0 auto;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+          <div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(140deg,#7c83ff,#4a52e0);display:flex;align-items:center;justify-content:center;font:700 13px/1 'IBM Plex Mono',monospace;color:#fff;box-shadow:0 4px 12px -4px rgba(124,131,255,.7);">S</div>
+          <span style="font:600 11px/1 'IBM Plex Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#7e8a9c;">Scrapper · Docs</span>
+        </div>
+        <a href="#/" onclick="navigate('/')" style="display:flex;align-items:center;gap:6px;font:500 11.5px/1 'IBM Plex Sans',sans-serif;color:#5a6678;text-decoration:none;margin-bottom:12px;cursor:pointer;transition:color .12s;" onmouseover="this.style.color='#aeb8c7'" onmouseout="this.style.color='#5a6678'">
+          <span style="font-size:10px;">◀</span> Todos os bots
+        </a>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span id="sb-bot-name" style="font:600 16px/1.25 'IBM Plex Mono',monospace;color:#fff;letter-spacing:-.01em;word-break:break-all;"></span>
+        </div>
+        <div id="sb-status" style="margin-top:9px;"></div>
+      </div>
+      <div style="padding:14px 16px 10px;flex:0 0 auto;">
+        <div style="position:relative;">
+          <span style="position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#5a6678;font-size:13px;pointer-events:none;">⌕</span>
+          <input id="doc-search" placeholder="Buscar na documentação" oninput="onDocSearch(this.value)"
+            style="width:100%;background:#141b27;border:1px solid #232c3c;border-radius:9px;padding:9px 12px 9px 30px;color:#e7edf5;font:400 13px/1 'IBM Plex Sans',sans-serif;outline:none;">
+        </div>
+      </div>
+      <nav id="bot-nav" class="scr-nav" style="flex:1;overflow-y:auto;padding:2px 14px 24px;"></nav>
+      <div style="padding:13px 18px;border-top:1px solid #161d2b;display:flex;align-items:center;justify-content:space-between;flex:0 0 auto;">
+        <span id="sb-version" style="font:500 11.5px/1 'IBM Plex Mono',monospace;color:#6b7689;"></span>
+        <span style="font:400 11.5px/1 'IBM Plex Sans',sans-serif;color:#4f5a6c;">doc.md</span>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <div id="bot-scroll" class="scr-main" style="flex:1;overflow-y:auto;position:relative;">
+      <!-- Sticky header -->
+      <header style="position:sticky;top:0;z-index:5;background:rgba(246,247,249,.9);backdrop-filter:blur(10px);border-bottom:1px solid #e7e9ee;padding:0 40px;height:54px;display:flex;align-items:center;justify-content:space-between;flex:0 0 auto;">
+        <div style="display:flex;align-items:center;gap:8px;font:500 13px/1 'IBM Plex Sans',sans-serif;color:#7a8499;">
+          <a href="#/" onclick="navigate('/')" style="color:#9aa3b5;text-decoration:none;cursor:pointer;transition:color .12s;" onmouseover="this.style.color='#4a52e0'" onmouseout="this.style.color='#9aa3b5'">bots</a>
+          <span style="color:#c3c9d4;">/</span>
+          <span id="hdr-bot-name" style="color:#3a4660;font-family:'IBM Plex Mono',monospace;"></span>
+          <span style="color:#c3c9d4;">/</span>
+          <span style="color:#9aa3b5;">doc.md</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <span id="hdr-last-run" style="font:400 12.5px/1 'IBM Plex Sans',sans-serif;color:#8b94a5;"></span>
+          <div id="hdr-status"></div>
+        </div>
+      </header>
+
+      <!-- Content area -->
+      <div style="max-width:892px;margin:0 auto;padding:38px 48px 140px;">
+        <!-- Hero -->
+        <div style="margin-bottom:30px;">
+          <div style="font:600 11px/1 'IBM Plex Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#9aa3b5;margin-bottom:12px;">Documentação do Bot</div>
+          <h1 id="hero-bot-name" style="font:600 40px/1.08 'IBM Plex Mono',monospace;color:#11161f;letter-spacing:-.025em;margin:0 0 16px;word-break:break-word;"></h1>
+          <div id="hero-chips" style="display:flex;flex-wrap:wrap;"></div>
+        </div>
+
+        <!-- Run console -->
+        <section id="run-console" class="console-section">
+          <div class="console-header">
+            <span class="run-badge">RUN</span>
+            <div style="flex:1;min-width:0;">
+              <div style="font:600 16.5px/1.2 'IBM Plex Sans',sans-serif;color:#1a2230;letter-spacing:-.01em;">Executar bot</div>
+              <div style="font:400 12.5px/1.35 'IBM Plex Sans',sans-serif;color:#8a94a5;margin-top:2px;">Preencha o payload e execute o bot em tempo real — como o "Try it out" do Swagger</div>
+            </div>
+            <span style="font:500 11px/1 'IBM Plex Sans',sans-serif;color:#7a8499;background:#f1f3f6;border:1px solid #e6e8ee;padding:6px 11px;border-radius:999px;flex:0 0 auto;" id="run-mode-badge">sandbox</span>
+          </div>
+          <div class="console-body">
+            <div id="run-form-area"></div>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:18px;">
+              <button class="run-btn" id="run-btn" onclick="executeBot()">
+                <span style="font-size:10px;">▶</span> Executar
+              </button>
+              <button class="clear-btn" onclick="clearResponse()">Limpar</button>
+            </div>
+            <div id="resp-area"></div>
+          </div>
+        </section>
+
+        <!-- Markdown content -->
+        <div id="md-body" class="md-body">
+          <div class="loading-row"><span class="spinner spinner-lg"></span> Carregando doc.md…</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Live reload badge -->
+<div id="live-badge">⟳ Atualizado</div>
+
+<script>
+// ── State ────────────────────────────────────────────────────────────────────
+
+const state = {
+  view: 'index',
+  bot: null,
+  meta: {},
+  bots: [],
+  navItems: [],
+  runState: { running: false, resp: null, tab: 'resp' },
+  payloadStr: '{}',
+};
+
+// ── Routing ──────────────────────────────────────────────────────────────────
+
+function getRoute() {
+  const h = location.hash.replace(/^#/, '') || '/';
+  if (h.startsWith('/bot/')) return { view: 'bot', bot: decodeURIComponent(h.slice(5)) };
+  return { view: 'index' };
+}
+
+function navigate(path) {
+  location.hash = '#' + path;
+}
+
+async function route() {
+  const { view, bot } = getRoute();
+  if (view === 'bot' && bot) {
+    await showBot(bot);
+  } else {
+    await showIndex();
+  }
+}
+
+window.addEventListener('hashchange', route);
+
+// ── Index view ───────────────────────────────────────────────────────────────
+
+async function showIndex() {
+  state.view = 'index';
+  document.getElementById('view-index').style.display = 'flex';
+  document.getElementById('view-bot').style.display = 'none';
+  await loadBotList();
+}
+
+async function loadBotList() {
+  const grid = document.getElementById('bot-grid');
+  grid.innerHTML = '<div class="loading-row" style="padding:32px;"><span class="spinner spinner-lg"></span> Descobrindo bots…</div>';
+  try {
+    const bots = await fetch('/api/bots').then(r => r.json());
+    state.bots = bots;
+    renderBotGrid(bots);
+    document.getElementById('index-bot-count').textContent = bots.length + ' bot' + (bots.length !== 1 ? 's' : '') + ' encontrado' + (bots.length !== 1 ? 's' : '');
+  } catch(e) {
+    grid.innerHTML = '<div class="empty-state"><h2>Erro ao carregar</h2><p>' + e.message + '</p></div>';
+  }
+}
+
+function renderBotGrid(bots) {
+  const grid = document.getElementById('bot-grid');
+  if (!bots.length) {
+    grid.innerHTML = '<div class="empty-state"><h2>Nenhum bot encontrado</h2><p>Adicione pastas com um arquivo <code>doc.md</code> no diretório de bots.</p></div>';
+    return;
+  }
+  grid.innerHTML = bots.map(b => {
+    const s = statusInfo(b.status || 'Active');
+    const chips = [];
+    if (b.language) chips.push(`<span class="bot-chip"><span class="bot-chip-label">runtime</span><span class="bot-chip-val" style="color:#5a4ad6">${esc(b.language)}</span></span>`);
+    if (b.schedule) chips.push(`<span class="bot-chip"><span class="bot-chip-label">schedule</span><span class="bot-chip-val" style="color:#c0820f">${esc(b.schedule)}</span></span>`);
+    if (b.version)  chips.push(`<span class="bot-chip"><span class="bot-chip-label">versão</span><span class="bot-chip-val" style="color:#0f9d6e">${esc(b.version)}</span></span>`);
+    return `<a class="bot-card" href="#/bot/${encodeURIComponent(b.name)}" onclick="navigate('/bot/${encodeURIComponent(b.name)}');return false;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <div class="bot-card-name">${esc(b.name)}</div>
+        <span class="pill" style="background:${s.bg};border:1px solid ${s.br};color:${s.fg};font-size:11px;">
+          <span class="dot" style="background:${s.dot};"></span>${s.pt}
+        </span>
+      </div>
+      <div class="bot-card-desc">${esc(b.description || 'Sem descrição.')}</div>
+      <div>${chips.join('')}</div>
+    </a>`;
+  }).join('');
+}
+
+function filterBots(q) {
+  q = q.toLowerCase();
+  const filtered = q ? state.bots.filter(b => b.name.toLowerCase().includes(q) || (b.description||'').toLowerCase().includes(q)) : state.bots;
+  renderBotGrid(filtered);
+}
+
+// ── Bot detail view ──────────────────────────────────────────────────────────
+
+async function showBot(botName) {
+  state.view = 'bot';
+  state.bot = botName;
+  state.navItems = [];
+  state.runState = { running: false, resp: null, tab: 'resp' };
+
+  document.getElementById('view-index').style.display = 'none';
+  document.getElementById('view-bot').style.display = 'block';
+
+  // Titles while loading
+  document.getElementById('sb-bot-name').textContent  = botName;
+  document.getElementById('hdr-bot-name').textContent = botName;
+  document.getElementById('hero-bot-name').textContent = botName;
+  document.getElementById('sb-status').innerHTML  = '';
+  document.getElementById('hdr-status').innerHTML = '';
+  document.getElementById('hero-chips').innerHTML  = '';
+  document.getElementById('sb-version').textContent = '';
+  document.getElementById('hdr-last-run').textContent = '';
+  document.getElementById('bot-nav').innerHTML = '<div style="padding:14px 12px;color:#5a6678;font:400 12.5px/1.4 \'IBM Plex Sans\'">Carregando índice…</div>';
+  document.getElementById('md-body').innerHTML = '<div class="loading-row"><span class="spinner spinner-lg"></span> Renderizando doc.md…</div>';
+  document.getElementById('run-form-area').innerHTML = '';
+  document.getElementById('resp-area').innerHTML = '';
+
+  // Load meta + doc in parallel
+  const [meta, doc] = await Promise.all([
+    fetch(`/api/bots/${encodeURIComponent(botName)}/meta`).then(r => r.json()).catch(() => ({})),
+    fetch(`/api/bots/${encodeURIComponent(botName)}/doc`).then(r => r.ok ? r.text() : null).catch(() => null),
+  ]);
+
+  state.meta = meta;
+  renderMeta(botName, meta);
+  renderRunForm(meta);
+
+  if (doc) {
+    await waitLibs();
+    renderDoc(doc);
+  } else {
+    document.getElementById('md-body').innerHTML = '<div class="empty-state"><h2>doc.md não encontrado</h2><p>Adicione um arquivo <code>doc.md</code> nesta pasta do bot.</p></div>';
+    document.getElementById('bot-nav').innerHTML = '<div style="padding:14px 12px;color:#5a6678;font:400 12.5px/1.4 \'IBM Plex Sans\'">Sem seções.</div>';
+  }
+}
+
+function renderMeta(botName, meta) {
+  const s = statusInfo(meta.status || 'Active');
+
+  document.getElementById('sb-bot-name').textContent  = botName;
+  document.getElementById('hdr-bot-name').textContent = botName;
+  document.getElementById('hero-bot-name').textContent = botName;
+  document.getElementById('sb-version').textContent   = meta.version || '';
+
+  if (meta.lastRun) document.getElementById('hdr-last-run').textContent = 'última execução · ' + meta.lastRun;
+
+  document.getElementById('sb-status').innerHTML =
+    `<span style="display:inline-flex;align-items:center;gap:7px;font:500 12px/1 'IBM Plex Sans',sans-serif;color:#9aa6b8;">
+      <span class="dot dot-lg" style="background:${s.dot};"></span>serviço <span style="color:#e7edf5;font-weight:600;">${s.pt}</span>
+    </span>`;
+
+  document.getElementById('hdr-status').innerHTML =
+    `<span class="pill" style="background:${s.bg};border:1px solid ${s.br};color:${s.fg};">
+      <span class="dot" style="background:${s.dot};"></span>${s.pt}
+    </span>`;
+
+  const chips = [];
+  if (meta.language) chips.push(makeChip('runtime',  meta.language, '#5a4ad6'));
+  if (meta.schedule) chips.push(makeChip('schedule', meta.schedule, '#c0820f'));
+  if (meta.version)  chips.push(makeChip('versão',   meta.version,  '#0f9d6e'));
+  chips.push(`<span class="meta-chip" style="background:${s.bg};border:1px solid ${s.br};color:${s.fg};">
+    <span class="dot" style="background:${s.dot};"></span>${s.pt}
+  </span>`);
+  document.getElementById('hero-chips').innerHTML = chips.join('');
+
+  // Run mode badge
+  const hasRunner = meta.run || false;
+  document.getElementById('run-mode-badge').textContent = hasRunner ? 'live' : 'sandbox';
+  if (hasRunner) {
+    document.getElementById('run-mode-badge').style.cssText = 'font:500 11px/1 \'IBM Plex Sans\',sans-serif;color:#0f9d6e;background:#e3f6ee;border:1px solid #bfe9d6;padding:6px 11px;border-radius:999px;flex:0 0 auto;';
+  }
+}
+
+function makeChip(label, val, color) {
+  return `<span class="meta-chip"><span class="meta-chip-label">${esc(label)}</span><span class="meta-chip-val" style="color:${color}">${esc(val)}</span></span>`;
+}
+
+function renderRunForm(meta) {
+  const params = meta.params;
+  if (params && Array.isArray(params) && params.length) {
+    // Generate form fields from bot.json params
+    const fields = params.map(p => {
+      const req = p.required ? `<span class="field-req">*</span>` : '';
+      let input = '';
+      if (p.type === 'select' && p.options) {
+        input = `<select class="form-input form-select" id="fp-${esc(p.name)}" onchange="updatePayloadFromForm()">
+          ${p.options.map(o => `<option value="${esc(o)}"${o === p.default ? ' selected' : ''}>${esc(o)}</option>`).join('')}
+        </select>`;
+      } else if (p.type === 'boolean') {
+        const checked = p.default === true;
+        input = `<div style="display:flex;align-items:center;gap:10px;">
+          <button class="toggle-btn" id="fp-${esc(p.name)}" data-val="${checked}"
+            style="background:${checked ? '#0f9d6e' : '#cfd4dd'};"
+            onclick="toggleParam(this)">
+            <span class="toggle-knob" style="left:${checked ? '22px' : '3px'};"></span>
+          </button>
+          <span id="fp-${esc(p.name)}-label" style="font:600 13px/1 'IBM Plex Mono',monospace;color:${checked ? '#0f9d6e' : '#9aa3b5'};">${checked ? 'true' : 'false'}</span>
+        </div>`;
+      } else {
+        const type = p.type === 'number' ? 'number' : 'text';
+        const val = p.default !== undefined ? p.default : '';
+        input = `<input type="${type}" class="form-input" id="fp-${esc(p.name)}" value="${esc(String(val))}" placeholder="${esc(p.placeholder||p.name)}" oninput="updatePayloadFromForm()">`;
+      }
+      const half = p.type === 'boolean' || (params.indexOf(p) % 2 === 0 && p.type !== 'string' && params.length > 2);
+      return `<div style="${half ? '' : 'grid-column:1/-1;'}">
+        <div class="field-label">${esc(p.name)} ${req}</div>
+        ${input}
+      </div>`;
+    }).join('');
+
+    document.getElementById('run-form-area').innerHTML =
+      `<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px 16px;">${fields}</div>`;
+    updatePayloadFromForm();
+  } else {
+    // Generic JSON textarea
+    state.payloadStr = '{}';
+    document.getElementById('run-form-area').innerHTML = `
+      <div class="field-label">Payload JSON</div>
+      <textarea class="json-editor" id="payload-json" oninput="state.payloadStr=this.value">{}</textarea>`;
+  }
+}
+
+function toggleParam(btn) {
+  const was = btn.dataset.val === 'true';
+  const now = !was;
+  btn.dataset.val = String(now);
+  btn.style.background = now ? '#0f9d6e' : '#cfd4dd';
+  btn.querySelector('.toggle-knob').style.left = now ? '22px' : '3px';
+  const label = document.getElementById(btn.id + '-label');
+  if (label) { label.textContent = now ? 'true' : 'false'; label.style.color = now ? '#0f9d6e' : '#9aa3b5'; }
+  updatePayloadFromForm();
+}
+
+function updatePayloadFromForm() {
+  const params = state.meta.params;
+  if (!params) return;
+  const obj = {};
+  params.forEach(p => {
+    const el = document.getElementById('fp-' + p.name);
+    if (!el) return;
+    if (p.type === 'boolean') obj[p.name] = el.dataset.val === 'true';
+    else if (p.type === 'number') obj[p.name] = Number(el.value);
+    else if (p.type === 'select') obj[p.name] = el.value;
+    else obj[p.name] = el.value;
+  });
+  state.payloadStr = JSON.stringify(obj);
+}
+
+// ── Bot execution ─────────────────────────────────────────────────────────────
+
+async function executeBot() {
+  if (state.runState.running) return;
+  state.runState = { running: true, resp: null, tab: 'resp' };
+  renderRunState();
+
+  let payload = {};
+  try { payload = JSON.parse(state.payloadStr || '{}'); } catch { payload = {}; }
+
+  const start = Date.now();
+  try {
+    const res = await fetch(`/api/bots/${encodeURIComponent(state.bot)}/run`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      state.runState = { running: false, resp: { ...data, ms: data.ms || Date.now() - start, payload }, tab: 'resp' };
+    } else {
+      // No runner — use sandbox
+      if (res.status === 422) {
+        state.runState = { running: false, resp: makeSandboxResp(payload, Date.now() - start), tab: 'resp', sandbox: true };
+      } else {
+        state.runState = { running: false, resp: { error: data.error, ms: Date.now() - start }, tab: 'resp' };
+      }
+    }
+  } catch (e) {
+    state.runState = { running: false, resp: { error: e.message, ms: Date.now() - start }, tab: 'resp' };
+  }
+  renderRunState();
+}
+
+function makeSandboxResp(payload, ms) {
+  const q = (payload.query || 'item').trim() || 'item';
+  const mp = Math.max(1, parseInt(payload.max_pages) || 10);
+  const cap = q.charAt(0).toUpperCase() + q.slice(1);
+  const suffix = ['Pro Max 256GB','RTX 4060','Ultra 5G','Edição Gamer','Plus 512GB','Lite'];
+  const items = Array.from({length: 5}, (_, i) => ({
+    mlb_id: 'MLB' + (3900000000 + Math.floor(Math.random() * 99999999)),
+    title: cap + ' ' + suffix[i % suffix.length],
+    price: Math.round((400 + Math.random() * 8000) * 100) / 100,
+    currency: 'BRL',
+    available_quantity: 1 + Math.floor(Math.random() * 40),
+    sold_quantity: Math.floor(Math.random() * 900),
+    seller: { id: 100000000 + Math.floor(Math.random() * 99999999), reputation: ['green','yellow','green','green','green'][i], is_official: Math.random() > 0.6 },
+    rating: Math.round((3.8 + Math.random() * 1.2) * 10) / 10,
+    collected_at: new Date().toISOString(),
+  }));
+  return { sandbox: true, ms: 320 + mp * 38 + Math.floor(Math.random() * 140), shown: items.length, total: mp * 48, items, payload };
+}
+
+function clearResponse() {
+  state.runState = { running: false, resp: null, tab: 'resp' };
+  renderRunState();
+}
+
+function renderRunState() {
+  const { running, resp, tab } = state.runState;
+  const btn = document.getElementById('run-btn');
+  const area = document.getElementById('resp-area');
+
+  if (running) {
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner" style="border-top-color:#fff;border-color:rgba(255,255,255,.4);"></span> Coletando…';
+    area.innerHTML = `<div style="margin-top:18px;border:1px solid #e6e8ee;border-radius:12px;padding:26px 18px;display:flex;align-items:center;gap:12px;color:#8a94a5;font:400 14px/1 'IBM Plex Sans',sans-serif;">
+      <span class="spinner"></span> Executando coleta…
+    </div>`;
+    return;
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<span style="font-size:10px;">▶</span> Executar';
+
+  if (!resp) { area.innerHTML = ''; return; }
+
+  if (resp.error) {
+    area.innerHTML = `<div style="margin-top:18px;padding:14px 16px;background:#fbe7e7;border:1px solid #f2c5c5;border-radius:10px;color:#d23f3f;font:500 13.5px/1.4 'IBM Plex Sans',sans-serif;">
+      <strong>Erro:</strong> ${esc(resp.error)}
+    </div>`;
+    return;
+  }
+
+  // Tab buttons
+  const tabs = resp.stdout !== undefined
+    ? [['resp','Saída (stdout)'],['stderr','Stderr'],['payload','Payload']]
+    : [['resp','Resposta'],['payload','Payload']];
+
+  const tabBar = tabs.map(([id, label]) =>
+    `<button class="tab-btn${tab===id?' active':''}" onclick="setTab('${id}')">${label}</button>`
+  ).join('');
+
+  // Status bar
+  const isSandbox = resp.sandbox;
+  const isSuccess = !resp.error && (resp.exitCode === 0 || resp.exitCode === undefined);
+  const statusBar = `<div class="resp-status-bar">
+    <span class="pill" style="background:${isSuccess?'#e3f6ee':'#fbe7e7'};border:1px solid ${isSuccess?'#bfe9d6':'#f2c5c5'};color:${isSuccess?'#0f9d6e':'#d23f3f'};">
+      <span class="dot" style="background:${isSuccess?'#34d399':'#f87171'};"></span>
+      ${resp.exitCode !== undefined ? resp.exitCode === 0 ? '0 OK' : 'exit ' + resp.exitCode : '200 OK'}
+    </span>
+    <span style="font:500 12.5px/1 'IBM Plex Mono',monospace;color:#8a94a5;">${resp.ms} ms</span>
+    ${isSandbox ? `<span style="font:400 12.5px/1 'IBM Plex Sans',sans-serif;color:#8a94a5;">${resp.shown} itens nesta amostra · ~${resp.total?.toLocaleString('pt-BR')||'?'} estimados</span>` : ''}
+    ${isSandbox ? `<span style="font:500 11px/1 'IBM Plex Sans',sans-serif;color:#c0820f;background:#fbf1d8;border:1px solid #eed9a6;padding:4px 9px;border-radius:6px;">sandbox</span>` : ''}
+  </div>`;
+
+  // Code content
+  let rawText, innerHtml, lang;
+  const currentTab = state.runState.tab;
+  if (currentTab === 'payload') {
+    rawText = JSON.stringify(resp.payload, null, 2);
+    innerHtml = hlJSON(resp.payload);
+    lang = 'json · request';
+  } else if (currentTab === 'stderr') {
+    rawText = resp.stderr || '';
+    innerHtml = esc(rawText);
+    lang = 'bash · stderr';
+  } else {
+    if (resp.items) {
+      rawText = JSON.stringify(resp.items, null, 2);
+      innerHtml = hlJSON(resp.items);
+      lang = 'json · response';
+    } else {
+      rawText = resp.stdout || '';
+      innerHtml = esc(rawText);
+      lang = 'text · stdout';
+    }
+  }
+
+  const codeBlock = `<div class="resp-code-wrap">
+    <div class="resp-code-bar">
+      <span style="font:600 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#6b7689;">${lang}</span>
+      <button class="code-copy" onclick="copyText(${JSON.stringify(rawText)})">copiar</button>
+    </div>
+    <pre class="resp-code-pre"><code>${innerHtml}</code></pre>
+  </div>`;
+
+  area.innerHTML = `<div class="resp-panel">
+    <div class="tab-bar">${tabBar}</div>
+    ${statusBar}
+    ${codeBlock}
+  </div>`;
+}
+
+function setTab(tab) {
+  state.runState.tab = tab;
+  renderRunState();
+}
+
+// ── Markdown rendering ────────────────────────────────────────────────────────
+
+function renderDoc(md) {
+  const body = document.getElementById('md-body');
+  if (!body) return;
+  const html = window.marked ? window.marked.parse(md) : md;
+  body.innerHTML = html;
+  buildSections(body);
+  decorateCode(body);
+  buildTOC(body);
+  setupSpy();
+}
+
+const CAT_MAP = [
+  [/vis(ã|a)o|geral|overview|sobre|introdu/,   'INFO',     '#5b6678', '#eef0f4'],
+  [/fonte|source|site|alvo|target|host/,         'SOURCE',   '#2563c9', '#e7eefb'],
+  [/par(â|a)metro|input|entrada|argument/,       'INPUT',    '#5a4ad6', '#ece9fb'],
+  [/schema|sa(í|i)da|output|dado|field|campo/,   'OUTPUT',   '#0f9d6e', '#e3f6ee'],
+  [/agend|schedul|cron|frequ/,                   'SCHEDULE', '#c0820f', '#fbf1d8'],
+  [/config|ambiente|env|setup|instal|vari/,      'CONFIG',   '#0e8aa6', '#e0f3f7'],
+  [/erro|error|falha|fail|retry|except/,         'ERRORS',   '#d23f3f', '#fbe7e7'],
+  [/auth|login|credencial|token|chave/,          'AUTH',     '#8a3fd2', '#f1e7fb'],
+  [/exemplo|example|uso|usage|execu/,            'USAGE',    '#0c8f8f', '#dff4f4'],
+  [/changelog|hist(ó|o)ric|vers(ã|a)o/,          'CHANGELOG','#5b6678', '#eef0f4'],
+];
+
+function catFor(text) {
+  const t = (text || '').toLowerCase();
+  for (const [re, label, fg, bg] of CAT_MAP) if (re.test(t)) return { label, fg, bg };
+  return { label: 'SECTION', fg: '#5b6678', bg: '#eef0f4' };
+}
+
+function slug(s) {
+  return (s || '').toLowerCase().trim()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+}
+
+function buildSections(body) {
+  const kids = Array.from(body.children);
+  const intro = [], groups = [];
+  let cur = null;
+  for (const el of kids) {
+    if (el.tagName === 'H2') { cur = { head: el, items: [] }; groups.push(cur); }
+    else if (cur) cur.items.push(el);
+    else intro.push(el);
+  }
+  body.innerHTML = '';
+  if (intro.length) {
+    const lead = document.createElement('div');
+    lead.className = 'md-intro';
+    intro.forEach(n => lead.appendChild(n));
+    body.appendChild(lead);
+  }
+  groups.forEach(g => {
+    const title = g.head.textContent;
+    const id = slug(title);
+    const cat = catFor(title);
+    const card = document.createElement('section');
+    card.className = 'op-card'; card.id = id;
+    card.dataset.title = title; card.dataset.dot = cat.fg;
+    const head = document.createElement('button');
+    head.type = 'button'; head.className = 'op-head';
+    head.innerHTML = `<span class="op-badge" style="color:${cat.fg};background:${cat.bg}">${cat.label}</span><span class="op-title">${esc(title)}</span><span class="op-chevron">▼</span>`;
+    head.addEventListener('click', () => card.classList.toggle('collapsed'));
+    const inner = document.createElement('div');
+    inner.className = 'op-body';
+    g.items.forEach(n => {
+      if (n.tagName === 'H3') n.id = id + '--' + slug(n.textContent);
+      inner.appendChild(n);
+    });
+    card.appendChild(head); card.appendChild(inner);
+    body.appendChild(card);
+  });
+}
+
+function decorateCode(body) {
+  body.querySelectorAll('pre').forEach(pre => {
+    const code = pre.querySelector('code');
+    const cls = (code && code.className) || '';
+    const m = cls.match(/language-([\w+-]+)/);
+    const lang = m ? m[1] : 'text';
+    const wrap = document.createElement('div'); wrap.className = 'code-wrap';
+    const bar = document.createElement('div'); bar.className = 'code-bar';
+    const lab = document.createElement('span'); lab.className = 'code-lang'; lab.textContent = lang;
+    const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'code-copy'; btn.textContent = 'copiar';
+    btn.addEventListener('click', () => {
+      navigator.clipboard.writeText(code ? code.textContent : '').then(() => {
+        btn.textContent = 'copiado ✓';
+        setTimeout(() => btn.textContent = 'copiar', 1400);
+      }).catch(() => {});
+    });
+    bar.appendChild(lab); bar.appendChild(btn);
+    pre.parentNode.insertBefore(wrap, pre);
+    wrap.appendChild(bar); wrap.appendChild(pre);
+    if (window.hljs && code) { try { window.hljs.highlightElement(code); } catch(e) {} }
+  });
+}
+
+function buildTOC(body) {
+  const nav = document.getElementById('bot-nav');
+  if (!nav) return;
+  nav.innerHTML = '';
+  state.navItems = [];
+
+  // Sandbox entry
+  const sbLabel = document.createElement('div');
+  sbLabel.className = 'nav-group-label'; sbLabel.style.paddingTop = '6px'; sbLabel.textContent = 'Sandbox';
+  nav.appendChild(sbLabel);
+  const consoleEl = document.getElementById('run-console');
+  const ca = document.createElement('a');
+  ca.className = 'nav-item'; ca.href = '#';
+  ca.innerHTML = '<span class="nav-dot" style="background:#0f9d6e"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">▶ Executar bot</span>';
+  ca.addEventListener('click', e => { e.preventDefault(); scrollTo(consoleEl); });
+  nav.appendChild(ca);
+  if (consoleEl) state.navItems.push({ el: ca, target: consoleEl, label: 'executar bot' });
+
+  const cards = Array.from(body.querySelectorAll('section.op-card'));
+  if (!cards.length) {
+    nav.innerHTML += '<div style="padding:14px 12px;color:#5a6678;font:400 12.5px/1.4 \'IBM Plex Sans\'">Sem seções.</div>';
+    return;
+  }
+  const secLabel = document.createElement('div');
+  secLabel.className = 'nav-group-label'; secLabel.textContent = 'Seções';
+  nav.appendChild(secLabel);
+
+  cards.forEach(card => {
+    const a = document.createElement('a');
+    a.className = 'nav-item'; a.href = '#';
+    a.innerHTML = `<span class="nav-dot" style="background:${card.dataset.dot}"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(card.dataset.title)}</span>`;
+    a.addEventListener('click', e => { e.preventDefault(); card.classList.remove('collapsed'); scrollTo(card); });
+    nav.appendChild(a);
+    state.navItems.push({ el: a, target: card, label: card.dataset.title.toLowerCase() });
+    card.querySelectorAll('.op-body > h3').forEach(h3 => {
+      const s = document.createElement('a');
+      s.className = 'nav-sub'; s.href = '#';
+      s.textContent = h3.textContent;
+      s.addEventListener('click', e => { e.preventDefault(); card.classList.remove('collapsed'); scrollTo(h3); });
+      nav.appendChild(s);
+      state.navItems.push({ el: s, target: h3, label: h3.textContent.toLowerCase(), sub: true });
+    });
+  });
+}
+
+function scrollTo(el) {
+  const c = document.getElementById('bot-scroll');
+  if (!c || !el) return;
+  const top = el.getBoundingClientRect().top - c.getBoundingClientRect().top + c.scrollTop - 18;
+  c.scrollTo({ top, behavior: 'smooth' });
+}
+
+function setupSpy() {
+  const c = document.getElementById('bot-scroll');
+  if (!c) return;
+  let raf = null;
+  const update = () => {
+    raf = null;
+    const ct = c.getBoundingClientRect().top;
+    const primary = state.navItems.filter(it => !it.sub && it.target);
+    let active = primary[0];
+    for (const it of primary) {
+      if (it.target.getBoundingClientRect().top - ct <= 92) active = it; else break;
+    }
+    state.navItems.forEach(it => it.el.classList.remove('active'));
+    if (active) active.el.classList.add('active');
+  };
+  c.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
+  update();
+}
+
+function onDocSearch(q) {
+  q = q.trim().toLowerCase();
+  state.navItems.forEach(it => {
+    const hit = !q || it.label.includes(q);
+    it.el.style.display = hit ? '' : 'none';
+  });
+}
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
+function statusInfo(status) {
+  const MAP = {
+    Active:  { pt: 'ativo',    dot: '#34d399', fg: '#0f9d6e', bg: '#e3f6ee', br: '#bfe9d6' },
+    Paused:  { pt: 'pausado',  dot: '#fbbf24', fg: '#b07d10', bg: '#fbf1d8', br: '#eed9a6' },
+    Error:   { pt: 'com erro', dot: '#f87171', fg: '#d23f3f', bg: '#fbe7e7', br: '#f2c5c5' },
+  };
+  return MAP[status] || MAP.Active;
+}
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function copyText(t) {
+  navigator.clipboard.writeText(t).catch(() => {});
+}
+
+function hlJSON(value) {
+  let json = JSON.stringify(value, null, 2);
+  json = json.replace(/[&<>]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[c]));
+  return json.replace(/("(?:\\.|[^"\\])*"\s*:?|\b(?:true|false|null)\b|-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/g, m => {
+    let color = '#e0af68';
+    if (/^"/.test(m)) color = /:\s*$/.test(m) ? '#7aa2f7' : '#9ece6a';
+    else if (/^(true|false|null)$/.test(m)) color = '#ff9e64';
+    return `<span style="color:${color}">${m}</span>`;
+  });
+}
+
+function waitLibs() {
+  return new Promise(res => {
+    let n = 0;
+    const tick = () => {
+      if ((window.marked && window.hljs) || n > 60) return res();
+      n++; setTimeout(tick, 60);
+    };
+    tick();
+  });
+}
+
+// ── WebSocket live reload ─────────────────────────────────────────────────────
+
+function connectWS() {
+  const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+  const ws = new WebSocket(`${proto}://${location.host}`);
+  ws.onmessage = e => {
+    const msg = JSON.parse(e.data);
+    showLiveBadge();
+    if (state.view === 'index') {
+      loadBotList();
+    } else if (state.view === 'bot') {
+      const botFolder = state.bot + '/';
+      if (msg.rel && (msg.rel === state.bot + '/doc.md' || msg.rel.startsWith(botFolder))) {
+        showBot(state.bot);
+      } else {
+        loadBotList();
+      }
+    }
+  };
+  ws.onclose = () => setTimeout(connectWS, 2000);
+  ws.onerror = () => ws.close();
+}
+
+function showLiveBadge() {
+  const badge = document.getElementById('live-badge');
+  badge.classList.add('show');
+  clearTimeout(badge._t);
+  badge._t = setTimeout(() => badge.classList.remove('show'), 2200);
+}
+
+// ── Boot ──────────────────────────────────────────────────────────────────────
+
+route();
+connectWS();
+</script>
+</body>
+</html>
