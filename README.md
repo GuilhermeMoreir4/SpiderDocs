@@ -175,3 +175,8 @@ A troca não reinicia o servidor — o watcher de arquivos é reconfigurado auto
 | `POST` | `/api/config` | Troca o diretório (`{ botsDir: "/novo/caminho" }`) |
 
 O WebSocket em `/live` envia eventos de mudança de arquivo (`change`, `add`, `unlink`, `addDir`, `unlinkDir`) com o campo `rel` contendo o caminho relativo ao `botsDir`.
+
+## Licença
+
+Distribuído sob a licença [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/).
+Pode usar e modificar livremente, desde que dê crédito ao original e não use para fins comerciais.
