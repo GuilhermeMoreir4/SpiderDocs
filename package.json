@@ -1,0 +1,34 @@
+{
+  "name": "scrapper-docs",
+  "version": "1.0.0",
+  "description": "Swagger-like documentation and live testing server for scraper bots",
+  "type": "module",
+  "main": "server.js",
+  "bin": { "scrapper-docs": "./server.js" },
+  "scripts": {
+    "dev": "concurrently \"node --watch server.js\" \"vite\"",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "chokidar": "^3.6.0",
+    "express": "^4.21.2",
+    "highlight.js": "^11.10.0",
+    "marked": "^12.0.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "autoprefixer": "^10.4.0",
+    "concurrently": "^9.0.0",
+    "postcss": "^8.4.0",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.5.0",
+    "vite": "^5.4.0"
+  }
+}
