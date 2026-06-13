@@ -1,0 +1,7 @@
+services:
+  spiderdocs:
+    build: .
+    ports:
+      - "3737:3737"
+    volumes:
+      - ./meus-bots:/bots
