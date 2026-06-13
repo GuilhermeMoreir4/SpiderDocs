@@ -2,6 +2,10 @@
 
 Documentação interativa para bots scraper — parecido com o Swagger UI, mas para scripts de coleta de dados. Cada bot tem uma página com sua documentação em Markdown, metadados e um console para executar em tempo real.
 
+![Lista de bots](docs/screenshot-index.png)
+
+![Página do bot](docs/screenshot-bot.png)
+
 ## Funcionalidades
 
 - Lista todos os bots encontrados no diretório configurado
