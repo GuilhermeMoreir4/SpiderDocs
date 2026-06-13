@@ -17,7 +17,30 @@ Documentação interativa para bots scraper — parecido com o Swagger UI, mas p
 npm install
 ```
 
-## Rodando
+## Docker
+
+**Com docker-compose** (recomendado):
+
+```bash
+# Edite docker-compose.yml para apontar para sua pasta de bots
+# Por padrão aponta para ./meus-bots
+docker-compose up --build
+```
+
+**Manualmente:**
+
+```bash
+docker build -t spiderdocs .
+docker run -p 3737:3737 -v /caminho/para/seus/bots:/bots spiderdocs
+```
+
+Acesse em `http://localhost:3737`. Para usar outra porta:
+
+```bash
+docker run -p 8080:3737 -v /caminho/para/seus/bots:/bots spiderdocs
+```
+
+## Rodando sem Docker
 
 **Desenvolvimento** (hot reload do Vite + watch do servidor):
 
